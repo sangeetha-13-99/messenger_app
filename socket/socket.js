@@ -6,6 +6,8 @@ const io=require('socket.io')(8000,{
     }
 });
 
+
+
 let users=[];
 const addUser=(userId,socketId,userInfo)=>{
     const checkUser=users.some(user=>user.userId===userId);

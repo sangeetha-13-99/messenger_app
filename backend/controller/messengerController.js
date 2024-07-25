@@ -3,6 +3,7 @@ const fs=require('fs');
 
 const registerModel=require('../models/authModel');
 const messageModel=require('../models/messageModel');
+const cloudinary=require('../config/cloudinary');
 
 const getLastMessage = async(myId,fdId)=>{
     const lastMessage=await messageModel.findOne({
@@ -50,7 +51,6 @@ const getUnseenCount = async(senderId,receiverId)=>{
                     }
                 ]
         });
-        // console.log(messages)
     return messages?messages.length:0;
         
 }
@@ -91,7 +91,6 @@ module.exports.getFriends=async (req,res)=>{
 }
 
 module.exports.sendMessage=async (req,res)=>{
-    // const {senderName,receiverId,message:{imageMessage,textMessage}}=req.body;
     const senderId=req.myId;
 
     const form=new formidable.IncomingForm();
@@ -99,11 +98,10 @@ module.exports.sendMessage=async (req,res)=>{
     form.parse(req,async(err,fields,files)=>{
         const [senderName,receiverId,text,imageName]=[fields["senderName"][0],fields["receiverId"][0],fields["textMessage"][0],fields["imageName"][0]];
         try{
-            if(imageName && files?.imageMessage){
-                files.imageMessage[0].originalFilename=imageName;
-                const newPath=__dirname+`/../../frontend/public/image/${imageName}`;
-
-                fs.copyFile(files.imageMessage[0].filepath,newPath,async(error)=>{
+            console.log(files,fields,"result")
+            if(imageName){
+                const result = await cloudinary.uploader.upload(files.imageMessage[0].filepath);
+                if(result){
                     const insertMessage=await messageModel.create({
                         senderId,
                         senderName,
@@ -111,15 +109,14 @@ module.exports.sendMessage=async (req,res)=>{
                         imageName,
                         message:{
                             text:text,
-                            image:files.imageMessage[0].originalFilename
+                            image:result.secure_url
                         }
                     });
-                    // const friends=await getMessageUpdates();
                     res.status(201).json({
                         success:true,
                         message:insertMessage
                     });
-                })
+                }
             }else{
                 const insertMessage=await messageModel.create({
                     senderId,
@@ -137,6 +134,7 @@ module.exports.sendMessage=async (req,res)=>{
                 });
             }
         }catch(error){
+            console.log(error,"error")
             res.status(500).json({
                 error:{
                     errorMessage:['Internal server error']
@@ -215,32 +213,6 @@ const getLastMessageId=async(receiverId,senderId)=>{
     return lastMessage.id;
 }
 
-/*
-    todo
-    similar to whats app
-    
-    1. no of unseen messages sent by sender is shown on reciever side green dot 
-    2. once receiver saw message all the unseen messages should be made status as seen(while user is active / or user clicks on currentfiend) same should be updated in sender id friends component last message (similar to whats app)
-    3. if the user is not active delivered , else if user is active but not seen message unseen 
-    4. if user seen ,friends component last message (similar to whats app) by socket
-
-
-    note :
-    1. need to take care of always trigegring of events (seen,delivered when opened the chat only triggered if unseen messages)
-
-*/
-
-
-
-
-
-
-//  the msg i have sent have put in friends component as a delivered or viewed (sender : me  is updated as delivered once seen my fnd updated as seen by socket (in db it is updated by dispatch while change of current fnd/on recieve of msg))
-
-//  the msg fnd sent is showed as radhika : hello 
-// the message not viewed by me is having green dot with number of messages i have to check
-//  once i check the messages green dot disappears 
-//  once i check the messages green dot disappears and sender gets the update of message viewed
 module.exports.seenMessage=async (req,res)=>{
     const {receiverId,senderId}=req.body;
     

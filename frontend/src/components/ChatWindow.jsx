@@ -26,7 +26,7 @@ const ChatWindow = () => {
               <div className="header">
                 <div className="image-name">
                   <div className="image">
-                    <img src={`/image/${currentFriend.image}`} alt={currentFriend.userName} />
+                    <img src={`${currentFriend.image}`} alt={currentFriend.userName} />
                     {activeUser && activeUser.length>0 && activeUser.some(user=>user.userId===currentFriend._id) && <div className='active-icon'></div>}
                   </div>
                   <div className="name">

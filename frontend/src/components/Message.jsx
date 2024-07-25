@@ -40,7 +40,7 @@ const Message = () => {
           return (<div className="my-message" ref={scrollRef}>
             <div className="image-message-time">
               <div className="my-text">
-               {message.message.image && <img className="message-image" src={"/image/"+message.message.image}/>}
+               {message.message.image && <img className="message-image" src={message.message.image}/>}
                 {message.message.text && <p className="message-text">{message.message.text}</p>}
               </div>
               {
@@ -52,10 +52,10 @@ const Message = () => {
         }else{
           return (<div className="fd-message" ref={scrollRef}>
             <div className="image-message-time">
-              <img className="fd-image" src={`/image/${currentFriend.image}`} alt={currentFriend.userName} />
+              <img className="fd-image" src={`${currentFriend.image}`} alt={currentFriend.userName} />
               <div className="message-time">
                 <div className="fd-text">
-                {message.message.image && <img className="message-image" src={"/image/"+message.message.image}/>}
+                {message.message.image && <img className="message-image" src={message.message.image}/>}
                 {message.message.text && <p className="message-text">{message.message.text}</p>}
                 </div>
                 <div className="time">{moment(message.createdAt).startOf('mini').fromNow()}</div>
@@ -77,7 +77,7 @@ const Message = () => {
       {typingMessage && typingMessage.msg && typingMessage.senderId===currentFriend._id && <div className="typing-message">
         <div className="fd-message">
             <div className="image-message-time">
-              <img className="fd-image" src={`/image/${currentFriend.image}`} alt={currentFriend.userName} />
+              <img className="fd-image" src={`${currentFriend.image}`} alt={currentFriend.userName} />
               <div className="message-time">
                 <div className="fd-text">
                   <p className="time">Typing...</p>

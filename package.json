@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node backend/server.js && node socket/socket.js",
-    "server": "nodemon backend/server.js && nodemon socket/socket.js",
+    "server": "concurrently \"nodemon backend/server.js\" \"nodemon socket/socket.js\"",
     "build": "npm install && npm install --prefix frontend && npm install --prefix backend && npm install --prefix socket && npm run build --prefix frontend"
   },
   "repository": {
@@ -20,6 +20,7 @@
   },
   "homepage": "https://github.com/sangeetha-13-99/messenger#readme",
   "dependencies": {
+    "concurrently": "^8.2.2",
     "nodemon": "^3.1.4"
   }
 }

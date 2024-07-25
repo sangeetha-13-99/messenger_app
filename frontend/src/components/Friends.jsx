@@ -13,7 +13,7 @@ const Friends = ({friend,myId}) => {
     <div className='friend'>
         <div className='friend-image'>
             <div className='image'>
-                <img src={`/image/${fndInfo.image}`} alt={fndInfo.userName}/>
+                <img src={`${fndInfo.image}`} alt={fndInfo.userName}/>
                 {activeUser && activeUser.some(user=>user.userInfo._id===fndInfo._id) && <div className='active-icon'></div>}
             </div>
         </div>

@@ -4,6 +4,7 @@ const registerModel=require('../models/authModel');
 const fs=require('fs');
 const bcrypt=require('bcrypt');
 const jwt=require('jsonwebtoken');
+const cloudinary=require('../config/cloudinary');
 
 const createToken=(userCreate)=>{
     const token=jwt.sign({
@@ -58,12 +59,6 @@ module.exports.userRegister=(req,res)=>{
                 }
             })
         }else{
-            const getImageName=files.image[0].originalFilename;
-            const randomNumber=Math.floor(Math.random() * 99999);
-            const newImageName=randomNumber+getImageName;
-            files.image[0].originalFilename=newImageName;
-            const newPath=__dirname+`/../../frontend/public/image/${newImageName}`;
-
             try{
               const checkUser=await registerModel.findOne({
                 email:email
@@ -71,38 +66,34 @@ module.exports.userRegister=(req,res)=>{
               if(checkUser){
                 res.status(404).json({
                     error:{
-                        errorMessage:['Your email already exited']
+                        errorMessage:['Your email already exist']
                     }
                 })
               }else{
-                fs.copyFile(files.image[0].filepath,newPath,async(error)=>{
-                    if(!error){
-                        const userCreate=await registerModel.create({
-                            userName,
-                            email,
-                            password:await bcrypt.hash(password,10),
-                            image:files.image[0].originalFilename
-                        });
+                const result = await cloudinary.uploader.upload(files.image[0].filepath);
+                if(result){
+                    const userCreate=await registerModel.create({
+                        userName,
+                        email,
+                        password:await bcrypt.hash(password,10),
+                        image:result.secure_url
+                    });
 
-                        // const currentUser=createToken(userCreate);
-                        // res.status(201).cookie('authToken',currentUser.token,currentUser.options).json({
-                        res.status(201).json({
-                           successMessage:'Your Registration is Successful',
-                        //    token : currentUser.token
-                        });
-                        console.log('registration completed');
-                    }
-                    else{
+                    res.status(201).json({
+                       successMessage:'Your Registration is Successful',
+                    });
+                    console.log('registration completed');
+
+                }else{
                     res.status(500).json({
                         error:{
-                            errorMessage:['Internal Server Error']
+                            errorMessage:['Unable to Upload Image']
                         }
                     })
-                    }
-                });
-              }
-
+                }
+            }
             }catch(error){
+                console.log(error)
                 res.status(500).json({
                     error:{
                         errorMessage:['Internal Server Error']
@@ -110,7 +101,6 @@ module.exports.userRegister=(req,res)=>{
                 })
             }
         }
-
     })
 }
 

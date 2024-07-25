@@ -10,6 +10,7 @@
     "axios": "^1.7.2",
     "http-proxy-middleware": "^3.0.0",
     "jwt-decode": "^4.0.0",
+    "messenger": "file:..",
     "moment": "^2.30.1",
     "node-sass": "^9.0.0",
     "react": "^18.3.1",

@@ -5,7 +5,6 @@ import { FaRegCircleXmark } from "react-icons/fa6";
 import { useDispatch } from 'react-redux';
 import { setModal } from '../store/messengerSlice';
 
-// import useImageHandlerHook from '../customHooks/ImageHandlerHook';
 
 const MessageModal = ({image,imageFile}) => {
     const modelRef=useRef(null);

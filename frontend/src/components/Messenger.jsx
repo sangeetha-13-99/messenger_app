@@ -43,7 +43,7 @@ const Messenger = () => {
                     <div className='top'>
                         <div className='image-name'>
                             <div className='image'>
-                                <img src={`/image/${currentUserInfo.image}`} alt={currentUserInfo.userName}/>
+                                <img src={`${currentUserInfo.image}`} alt={currentUserInfo.userName}/>
                             </div>
                             <div className='name'>
                                 <h3>{currentUserInfo.userName}</h3>

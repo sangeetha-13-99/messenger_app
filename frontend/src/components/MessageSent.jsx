@@ -2,12 +2,22 @@ import { FaFileImage, FaGift, FaPlusCircle } from "react-icons/fa";
 
 import InputBox from '../common/InputBox';
 // import { useDispatch } from "react-redux";
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
+import { useSelector } from "react-redux";
 
 
 
 const MessageSent = ({imageHandler}) => {
     const fileRef=useRef(null);
+    const {showModal}=useSelector(state=>state.messenger);
+ 
+
+    useEffect(()=>{
+        if(showModal===false){
+            fileRef.current.value='';
+        }
+
+    },[showModal]);
 
     const fileHandler=(e)=>{
         imageHandler(e);
@@ -21,7 +31,7 @@ const MessageSent = ({imageHandler}) => {
             <FaPlusCircle/>
         </div>
         <div className="file hover-image">
-            <input type="file" ref={fileRef} onChange={fileHandler} style={{display:'none'}}/>
+            <input type="file" ref={fileRef} onInput={fileHandler} style={{display:'none'}}/>
             <div className="add-image">
                 Add Image
             </div>
