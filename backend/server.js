@@ -10,7 +10,6 @@ const path=require("path");
 dotenv.config({
     path:'./config/config.env'
 });
-const dataBaseConnection=require('./config/database');
 
 
 app.use(bodyParser.json({ limit: '50mb' }));
@@ -33,6 +32,7 @@ if(process.env.NODE_ENV==='production'){
 
 
 const PORT=process.env.PORT || 5000;
+const dataBaseConnection=require('./config/database');
 dataBaseConnection();
 app.listen(PORT,()=>{
     console.log(`Server is running on port ${PORT}`)

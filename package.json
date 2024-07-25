@@ -18,5 +18,8 @@
   "bugs": {
     "url": "https://github.com/sangeetha-13-99/messenger/issues"
   },
-  "homepage": "https://github.com/sangeetha-13-99/messenger#readme"
+  "homepage": "https://github.com/sangeetha-13-99/messenger#readme",
+  "dependencies": {
+    "nodemon": "^3.1.4"
+  }
 }
