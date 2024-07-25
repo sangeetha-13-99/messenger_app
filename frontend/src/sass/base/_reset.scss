@@ -1,0 +1,37 @@
+*{
+    margin: 0px;
+    padding: 0px;
+    box-sizing: border-box;
+}
+:root{
+    --white: #FFFFFF;
+    --text-color : #050505;
+    --bg-color: #F0F2F5;
+    --text-gray: #54656F;
+    --icon-color: #008069;
+    --icon-bg : #EFFCE3;
+    --primary-color:#25D366;
+    --message-bg: #d9fdd3;
+}
+body{
+    background-color: var(--bg-color);
+    font-family: Verdana;
+}
+
+h3,h4{
+    font-family: monospace !important;
+}
+h3{
+    font-size: 1.5rem; 
+}
+
+h4{
+    font-size: 1rem; 
+}
+
+a{
+    text-decoration: none;
+}
+li{
+    list-style: none;
+}

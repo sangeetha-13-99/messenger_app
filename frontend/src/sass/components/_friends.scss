@@ -1,0 +1,120 @@
+.friends{
+    display: flex;
+    flex-direction: column;
+    background-color: var(--white);
+    height: 100%;     
+    overflow-y: auto;
+    &::-webkit-scrollbar{
+        display: none;
+    }
+    border-top:2px solid var(--bg-color);
+    .hover-friend.active{
+        background-color: var( --bg-color);
+    }
+    .hover-friend{
+        cursor: pointer;
+        &:hover{
+           background-color: var(--bg-color);
+        }
+        .friend{
+            display: flex;
+            width: 100%;
+            padding: 7px 15px;
+            .friend-image{
+                .image{
+                    margin-right: 8px;
+                    position: relative;
+                    img{
+                        width: 50px;
+                        height: 50px;
+                        border-radius: 50%;
+                        border: 1px solid var(--text-color);
+                    }
+                    .active-icon{
+                        position: absolute;
+                        width: 13px;
+                        height: 13px;
+                        border-radius: 50%;
+                        background-color: var(--primary-color);
+                        right: -2px;
+                        bottom: 6px;
+                        border: 1px solid var(--white);
+                    }
+                }
+            }
+            .friend-name-seen{
+                width: 100%;
+                display: flex;
+                flex-direction: column;
+                justify-content: space-evenly;
+                align-items: flex-start;
+
+                .friend-name{
+                    display: flex;
+                    align-items: flex-start;
+                    justify-content: space-between;
+                    width:100%;
+                    // flex-direction: column;
+                    h4.unseen-message{
+                        font-weight: 600 !important;
+                    }
+                    h4{
+                        color: var(--text-color);
+                        font-weight: 300;
+                    }
+                    .friend-moment{
+                        display: flex;
+                        align-self: flex-end;
+                        font-size: 12px;
+                        gap: 0.5rem;
+                    }
+                    
+                } 
+                .seen-unseen-icon{
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    img{
+                        width: 15px;
+                        height: 15px;
+                        border-radius: 50%;
+                    }
+                 
+                    .seen-icon{
+                        min-width: 15px;
+                        padding: 2px;
+                        padding-bottom: 3px;
+                        text-align: center;
+                        color: var(--white);
+                        font-size: 10px;
+                        font-weight: bold;
+                        border-radius: 8px;
+                        background-color: var(--primary-color);
+                    }
+                }
+                .friend-outer{
+                    display: flex;
+                    width: 100%;
+                    font-size: 12px;
+                    justify-content: space-between;
+                    align-items: flex-end;
+
+                    .friend-message{
+                        display: flex;
+                        justify-content: space-between;
+                        gap: 4px;
+                        align-items: flex-end;
+                    }
+
+
+     
+                }
+            }
+           
+        }
+    }
+
+    .hover-friend:not(:last-child){
+        border-bottom:1px solid var(--bg-color);
+    }
+}
