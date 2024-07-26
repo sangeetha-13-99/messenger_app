@@ -30,6 +30,7 @@ const findFriend=(id)=>{
 
 
 io.on('connection',(socket)=>{
+    console.log('socket is connected')
     socket.on('addUser',(userId,userInfo)=>{
         addUser(userId,socket.id,userInfo);
         io.emit('getUser',users);

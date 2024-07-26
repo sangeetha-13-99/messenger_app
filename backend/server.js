@@ -30,10 +30,9 @@ if(process.env.NODE_ENV==='production'){
 const PORT=process.env.PORT || 5000;
 const dataBaseConnection=require('./config/database');
 dataBaseConnection();
-app.listen(PORT,()=>{
+const server=app.listen(PORT,()=>{
     console.log(`Server is running on port ${PORT}`);
 })
-
 
 
 

@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node backend/server.js && node socket/socket.js",
+    "start": "concurrently \"node backend/server.js\" \"node socket/socket.js\"",
     "server": "concurrently \"nodemon backend/server.js\" \"nodemon socket/socket.js\"",
     "build": "npm install && npm install --prefix frontend && npm install --prefix backend && npm install --prefix socket && npm run build --prefix frontend"
   },
