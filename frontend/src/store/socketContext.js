@@ -51,9 +51,7 @@ const SocketContextProvider=({children})=>{
     },[]);
 
     useEffect(()=>{
-        console.log(sMessage ,currentFriend,"sMessage useEffect")
         if(sMessage && sMessage._id && currentFriend){
-            console.log("true here")
             if(sMessage.senderId === currentFriend._id && sMessage.receiverId === currentUserInfo._id){
                 const getFriend=friends.find(fnd=>fnd.fndInfo._id===currentFriend._id);
                 dispatch(setSocketMessage({socketMessage:sMessage}));
@@ -71,7 +69,6 @@ const SocketContextProvider=({children})=>{
 
     useEffect(()=>{
         if(messageSentSucess){
-            console.log("sent message")
             socket.current.emit('sendMessage',message[message.length-1]);
             dispatch(updateFriend({msgInfo:message[message.length-1],sender:true}));
         }
@@ -83,7 +80,6 @@ const SocketContextProvider=({children})=>{
         if(messageGetSucess && currentFriend._id && message && message.length>0){
             if(message[message.length-1].senderId===currentFriend._id && message[message.length-1].status==='unseen'){
                 const getFriend=friends.find(fnd=>fnd.fndInfo._id===currentFriend._id);
-                console.log(message[message.length-1] ,currentFriend,"friend",currentUserInfo,"ashg")
                 dispatch(seenMessage({receiverId:currentUserInfo._id,senderId:currentFriend._id}));
                 dispatch(updateFriend({msgInfo:message[message.length-1],sender:false}));
                 socket.current.emit('seenMessage',{message,count:getFriend.unseenCount});
@@ -92,20 +88,10 @@ const SocketContextProvider=({children})=>{
     },[messageGetSucess])
 
     useEffect(()=>{
-        console.log(seenSMessage,"getting seen seenMessage useEffect")
         if(seenSMessage && seenSMessage.message){
             dispatch(setSeenSocketMessage({message:seenSMessage.message,count:seenSMessage.count}));
         }
     },[seenSMessage?.message?._id]);
-
-    // useEffect(()=>{
-
-    //     if(message && message.length>0 && currentFriend._id){
-    //         console.log(message[message.length-1] ,currentFriend,"ashg")
-    //         socket.current.emit('seenMessage',message[message.length-1]);
-    //     }
-    // },[currentFriend?._id]);
-    
 
     return (
         <SocketContext.Provider value={{socket,typingMessage}}>

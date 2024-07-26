@@ -98,7 +98,6 @@ module.exports.sendMessage=async (req,res)=>{
     form.parse(req,async(err,fields,files)=>{
         const [senderName,receiverId,text,imageName]=[fields["senderName"][0],fields["receiverId"][0],fields["textMessage"][0],fields["imageName"][0]];
         try{
-            console.log(files,fields,"result")
             if(imageName){
                 const result = await cloudinary.uploader.upload(files.imageMessage[0].filepath);
                 if(result){
@@ -134,7 +133,6 @@ module.exports.sendMessage=async (req,res)=>{
                 });
             }
         }catch(error){
-            console.log(error,"error")
             res.status(500).json({
                 error:{
                     errorMessage:['Internal server error']

@@ -93,7 +93,6 @@ module.exports.userRegister=(req,res)=>{
                 }
             }
             }catch(error){
-                console.log(error)
                 res.status(500).json({
                     error:{
                         errorMessage:['Internal Server Error']

@@ -16,7 +16,6 @@ app.use(cookieParser());
 app.use('/api/messenger',authRouter,messengerRouter);
 
 const __dirname1=path.resolve();
-// console.log(__dirname1)
 if(process.env.NODE_ENV==='production'){
     app.use(express.static(path.join(__dirname1,"/frontend/build")));
     app.get('*',(req,res)=>{
@@ -24,7 +23,6 @@ if(process.env.NODE_ENV==='production'){
     })
 }else{
     app.get('/',(req,res)=>{
-        console.log(req.path);
         res.send('ok');
     });
 }
@@ -32,7 +30,6 @@ if(process.env.NODE_ENV==='production'){
 
 
 const PORT=process.env.PORT || 5000;
-console.log(process.env.PORT,"PORT")
 const dataBaseConnection=require('./config/database');
 dataBaseConnection();
 app.listen(PORT,()=>{

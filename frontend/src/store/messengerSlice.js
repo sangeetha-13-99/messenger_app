@@ -51,7 +51,6 @@ export const seenMessage=createAsyncThunk(
     'messenger/seenMessage',async(data,thunkApi)=>{
         try{
             const response=await axios.post(`api/messenger/seen-message`,data);
-            console.log(response.data);
             return response.data
         }catch(error){
             return thunkApi.rejectWithValue(error.response.data.error);
@@ -81,12 +80,9 @@ const messenger=createSlice({
            
         },
         setSeenSocketMessage:(state,{payload})=>{
-            console.log(payload,"paylod testing",current(state.message))
-            // const messagesLength=state.message.length;
             for(let cnt=payload.count;cnt>0;cnt--){
                 state.message[state.message.length-cnt].status='seen';
             }
-            // state.message[messagesLength-1]=payload.message;
             state.friends=state.friends.map(fnd=>{
                 if(fnd.fndInfo._id===payload.message.receiverId){
                     fnd.msgInfo=payload.message;
@@ -98,7 +94,6 @@ const messenger=createSlice({
       
         updateFriend:(state,{payload})=>{
             if(payload.sender){
-                console.log(current(state.friends),payload.msgInfo,"friends")
                 const index=state.friends.findIndex(friend=>friend.fndInfo._id === payload.msgInfo.receiverId);
                 state.friends[index].msgInfo=payload.msgInfo;
                 state.friends[index].unseenCount=0;
