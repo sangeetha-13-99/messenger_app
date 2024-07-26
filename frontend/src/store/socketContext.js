@@ -7,6 +7,7 @@ import { toast} from 'react-toastify';
 import useSound from 'use-sound';
 
 import notificationSound from '../audio/notification.mp3';
+import globalConstants from '../utils/constants';
 
 
 export const SocketContext=createContext({
@@ -27,7 +28,7 @@ const SocketContextProvider=({children})=>{
 
 
     useEffect(()=>{
-        socket.current=io('ws://localhost:8000');
+        socket.current=io(globalConstants.socketEndpoint);
         socket.current.on('getMessage',(data)=>{
             setSMessage(data);
         });
