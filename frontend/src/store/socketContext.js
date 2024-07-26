@@ -28,7 +28,7 @@ const SocketContextProvider=({children})=>{
 
 
     useEffect(()=>{
-        socket.current=io('ws://localhost:8000');
+        socket.current=io();
         socket.current.on('getMessage',(data)=>{
             setSMessage(data);
         });
