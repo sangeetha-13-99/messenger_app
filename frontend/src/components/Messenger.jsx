@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import {FaEdit,FaSistrix} from 'react-icons/fa';
 import { FiLogOut } from "react-icons/fi";
 import { useDispatch, useSelector } from 'react-redux';
@@ -17,10 +17,15 @@ const Messenger = () => {
     const {currentUserInfo}=useSelector(state=>state.auth);
     const dispatch=useDispatch();
     const {socket}=useContext(SocketContext);
+    const [filterFriend,setFilterFriend]=useState(null);
     
     useEffect(()=>{
         dispatch(getFriends());
     },[]);
+
+    useEffect(()=>{
+        setFilterFriend(friends)
+    },[friends])
 
  
     useEffect(()=>{
@@ -34,6 +39,28 @@ const Messenger = () => {
         socket.current.emit('logout',currentUserInfo._id);
     }
 
+    const searchHandler=(event)=>{
+        if(friends && friends.length>0){
+            const filterFriends=friends.filter(({fndInfo})=>fndInfo.userName.toLowerCase().includes(event.target.value.toLowerCase()));
+            if(filterFriends.length===0){
+                setFilterFriend(friends);
+            }else{
+                setFilterFriend(filterFriends);
+            }
+        }
+    }
+
+    const debounce=(callback)=>{
+        let timer;
+        return function(event){
+            clearTimeout(timer);
+            timer=setTimeout(()=>{
+                callback(event);
+            },500);
+        }
+    }
+
+    const debounceHandler=debounce(searchHandler);
 
   return (
     currentUserInfo?._id  && (<div className='messenger'>
@@ -61,13 +88,13 @@ const Messenger = () => {
                      <div className='friend-search'>
                         <div className='search'>
                             <button><FaSistrix/></button>
-                            <input type="text" placeholder="Search" className='form-control'/>
+                            <input type="text" placeholder="Search" className='form-control' onChange={(e)=>debounceHandler(e)}/>
                         </div>
                      </div>
    
                     <div className='friends'>
                             {
-                                (friends && friends.length>0) ? friends.map((friend)=>
+                                (filterFriend && filterFriend.length>0) ? filterFriend.map((friend)=>
                                     (<div className={`hover-friend ${currentFriend._id===friend.fndInfo._id?"active":""}`} key={friend.fndInfo._id} onClick={()=>{
                                         dispatch(setCurrentFriend({currentFriend:friend.fndInfo}))
                                     }}>

@@ -91,7 +91,6 @@ const messenger=createSlice({
                 return fnd;
             })
         },
-      
         updateFriend:(state,{payload})=>{
             if(payload.sender){
                 const index=state.friends.findIndex(friend=>friend.fndInfo._id === payload.msgInfo.receiverId);

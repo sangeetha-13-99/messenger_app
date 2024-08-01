@@ -1,5 +1,5 @@
-import React, { Fragment, useContext, useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import React, { Fragment, useState } from "react";
+import {  useSelector } from "react-redux";
 
 import { FaPhoneAlt, FaRocketchat, FaVideo } from "react-icons/fa";
 import Message from "./Message";

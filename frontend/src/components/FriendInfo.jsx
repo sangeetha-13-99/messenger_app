@@ -3,7 +3,12 @@ import { FaCaretSquareDown } from "react-icons/fa";
 import { useSelector } from "react-redux";
 
 const FriendInfo = () => {
-  const {currentFriend,activeUser}=useSelector(state=>state.messenger);
+  const {currentFriend,activeUser,message}=useSelector(state=>state.messenger);
+
+  let imageFiles;
+  if(message && message.length>0){
+    imageFiles=message.filter(message=>message.message.image!=='')
+  }
 
   return (
     <div className="friend-info">
@@ -33,12 +38,9 @@ const FriendInfo = () => {
           </label>
         </div>
       </div>
-      <div className="gallery">
-        <img src="/image/28350krishna.jpg" alt="" />
-        <img src="/image/28350krishna.jpg" alt="" />
-        <img src="/image/28350krishna.jpg" alt="" />
-        <img src="/image/28350krishna.jpg" alt="" />
-      </div>
+      {message && <div className="gallery">
+        {imageFiles && imageFiles.length>0 &&  imageFiles.map(msgImage=><img src={msgImage.message.image} alt={msgImage.senderName+'\'s image'} />)}
+      </div>}
     </div>
   );
 };
